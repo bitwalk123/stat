@@ -26,7 +26,8 @@ print(data)
 #   p-value   : float
 #               The p-value for the hypothesis test.
 stat, pvalue = shapiro(data)
-print('stat = %.3f, p = %.3f\n' % (stat, pvalue))
+print('\nShapiro-Wilk test')
+print('stat = %.3f, p = %.3f' % (stat, pvalue))
 
 if pvalue > 0.05:
     # If the p-value > 0.05, then we fail to reject the null hypothesis
