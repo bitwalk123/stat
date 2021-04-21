@@ -9,7 +9,9 @@ from scipy.stats import (
     shapiro,
 )
 
+
 def main():
+    # sample dataset
     data = np.random.normal(loc=20, scale=5, size=150)
     print(data)
 
@@ -108,6 +110,7 @@ def main():
             print('Probably Gaussian : %.3f critical at %2d%% level of significance' % (crit_val, sig_lev))
         else:
             print('Probably not Gaussian : %.3f critical at %2d%% level of significance' % (crit_val, sig_lev))
+
 
 if __name__ == '__main__':
     main()
