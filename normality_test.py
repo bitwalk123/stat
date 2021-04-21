@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+
 # Reference:
 # https://towardsdatascience.com/normality-tests-in-python-31e04aa4f411
 import numpy as np
@@ -40,11 +41,11 @@ def main():
     if pvalue > 0.05:
         # If the p-value > 0.05, then we fail to reject the null hypothesis
         # i.e. we assume the distribution of our variable is normal/gaussian.
-        print('Probably Gaussian')
+        print('Probably Gaussian at 5% level of significance')
     else:
         # If the p-value ≤ 0.05, then we reject the null hypothesis
         # i.e. we assume the distribution of our variable is not normal/gaussian.
-        print('Probably not Gaussian')
+        print('Probably not Gaussian at 5% level of significance')
 
     '''
     Shapiro-Wilk test
@@ -97,19 +98,16 @@ def main():
     If the returned statistic is larger than these critical values then for
     the corresponding significance level, the null hypothesis that the data
     come from the chosen distribution can be rejected.
-    The returned statistic is referred to as ‘A2’ in the references.
-
-    A2
-    Stephens, M. A. (1974). EDF Statistics for Goodness of Fit and Some
-    Comparisons, Journal of the American Statistical Association,
-    Vol. 69, pp. 730-737.
     '''
     print('\n> Anderson-Darling test')
-    stat, critical, signif = anderson(data)
-    #print('stat = %.3f' % stat)
-    print('stat = %.3f, critial = %.3f' % (stat, critical[2]))
-    print(critical)
-    print(signif)
+    result = anderson(data)
+    print('stat = %.3f' % (result.statistic))
+    for i in range(len(result.critical_values)):
+        sig_lev, crit_val = result.significance_level[i], result.critical_values[i]
+        if result.statistic < crit_val:
+            print('Probably Gaussian : %.3f critical at %2d%% level of significance' % (crit_val, sig_lev))
+        else:
+            print('Probably not Gaussian : %.3f critical at %2d%% level of significance' % (crit_val, sig_lev))
 
 if __name__ == '__main__':
     main()
