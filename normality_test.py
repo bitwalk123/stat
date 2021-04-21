@@ -11,6 +11,7 @@ from scipy.stats import (
 
 
 def main():
+    # sample dataset
     data = np.random.normal(loc=20, scale=5, size=150)
     print(data)
 
