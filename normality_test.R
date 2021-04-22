@@ -1,4 +1,5 @@
 library(nortest)
+#library(goftest)
 
 # sample dataset
 data <- rnorm(150, mean = 20, sd = 5)
