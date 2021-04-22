@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# Reference:
-# https://towardsdatascience.com/normality-tests-in-python-31e04aa4f411
 import csv
 import math
 import numpy as np
@@ -12,8 +9,10 @@ from scipy.stats import (
 )
 
 
-# Reference
-# https://stats.stackexchange.com/questions/350443/how-do-i-get-the-p-value-of-ad-test-using-the-results-of-scipy-stats-anderson
+'''
+Reference
+https://stats.stackexchange.com/questions/350443/how-do-i-get-the-p-value-of-ad-test-using-the-results-of-scipy-stats-anderson
+'''
 def calc_probability(ad, n):
     ad_adj = ad * (1 + (0.75 / n) + 2.25 / (n ** 2))
     if ad_adj >= 0.6:
