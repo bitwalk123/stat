@@ -35,7 +35,7 @@ def main():
         print('Probably not Gaussian at 5% level of significance')
 
     '''
-    Shapiro-Wilk test
+    Anderson-Darling test
 
     Reference:
     https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.anderson.html#scipy.stats.anderson
