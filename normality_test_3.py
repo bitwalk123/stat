@@ -11,11 +11,12 @@ from scipy.stats import (
     shapiro,
 )
 
-
 '''
 Reference
 https://stats.stackexchange.com/questions/350443/how-do-i-get-the-p-value-of-ad-test-using-the-results-of-scipy-stats-anderson
 '''
+
+
 def calc_probability(ad, n):
     ad_adj = ad * (1 + (0.75 / n) + 2.25 / (n ** 2))
     if ad_adj >= 0.6:
@@ -32,13 +33,7 @@ def calc_probability(ad, n):
 def main():
     # sample dataset
     filename = 'data_norm.csv'
-    file = open(filename)
-    reader = csv.reader(file)
-    next(reader)  # skip first row
-    data = []
-    for row in reader:
-        data.append(float(row[0]))
-    data = np.array(data)
+    data = np.loadtxt(filename, skiprows=1)
     print(data)
 
     '''
@@ -72,7 +67,6 @@ def main():
     sns.set_style('darkgrid')
     ax2 = sns.histplot(data, kde=True, ax=ax2)
     ax2.set_title('Histogram')
-
 
     plt.show()
 
