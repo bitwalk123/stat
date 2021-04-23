@@ -3,6 +3,9 @@
 import csv
 import math
 import numpy as np
+import matplotlib.pyplot as plt
+import pingouin as pg
+import seaborn as sns
 from scipy.stats import (
     anderson,
     shapiro,
@@ -58,6 +61,13 @@ def main():
     result_anderson = anderson(data)
     pvalue = calc_probability(result_anderson.statistic, data.size)
     print('A = %.5f, p-value = %.4f' % (result_anderson.statistic, pvalue))
+
+    ax = pg.qqplot(data, dist='norm')
+
+    #sns.set_style('darkgrid')
+    #sns.histplot(data, kde=True)
+
+    plt.show()
 
 
 if __name__ == '__main__':
