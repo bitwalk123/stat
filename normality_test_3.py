@@ -62,10 +62,17 @@ def main():
     pvalue = calc_probability(result_anderson.statistic, data.size)
     print('A = %.5f, p-value = %.4f' % (result_anderson.statistic, pvalue))
 
-    ax = pg.qqplot(data, dist='norm')
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 4))
 
-    #sns.set_style('darkgrid')
-    #sns.histplot(data, kde=True)
+    # Q-Q plot
+    ax1 = pg.qqplot(data, dist='norm', ax=ax1)
+    ax1.set_title('Probability Plot')
+
+    # Histogram
+    sns.set_style('darkgrid')
+    ax2 = sns.histplot(data, kde=True, ax=ax2)
+    ax2.set_title('Histogram')
+
 
     plt.show()
 
