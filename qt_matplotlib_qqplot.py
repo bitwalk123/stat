@@ -20,7 +20,7 @@ class Example(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.resize(600, 600)
+        self.resize(500, 500)
         self.setWindowTitle('Q-Q plot on Qt5')
         self.show()
 
