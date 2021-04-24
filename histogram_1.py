@@ -2,8 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-d = np.random.normal(size=50)
+# sample dataset
+filename = 'data_norm.csv'
+data = np.loadtxt(filename, skiprows=1)
 
 sns.set_style('darkgrid')
-sns.histplot(d, kde=True)
+sns.histplot(data, kde=True)
 plt.show()
