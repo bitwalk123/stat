@@ -16,8 +16,8 @@ from sklearn.cross_decomposition import PLSRegression
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import mean_squared_error, r2_score
 
-def optimise_pls_cv(X, y, n_comp, plot_components=True):
 
+def optimise_pls_cv(X, y, n_comp, plot_components=True):
     '''Run PLS including a variable number of components, up to n_comp,
        and calculate MSE '''
 
@@ -32,20 +32,21 @@ def optimise_pls_cv(X, y, n_comp, plot_components=True):
 
         mse.append(mean_squared_error(y, y_cv))
 
-        comp = 100*(i+1)/40
+        comp = 100 * (i + 1) / 40
         # Trick to update status on the same line
         stdout.write("\r%d%% completed" % comp)
         stdout.flush()
+
     stdout.write("\n")
 
     # Calculate and print the position of minimum in MSE
     msemin = np.argmin(mse)
-    print("Suggested number of components: ", msemin+1)
+    print("Suggested number of components: ", msemin + 1)
     stdout.write("\n")
 
     if plot_components is True:
         with plt.style.context(('ggplot')):
-            plt.plot(component, np.array(mse), '-v', color = 'blue', mfc='blue')
+            plt.plot(component, np.array(mse), '-v', color='blue', mfc='blue')
             plt.plot(component[msemin], np.array(mse)[msemin], 'P', ms=10, mfc='red')
             plt.xlabel('Number of PLS components')
             plt.ylabel('MSE')
@@ -55,7 +56,7 @@ def optimise_pls_cv(X, y, n_comp, plot_components=True):
         plt.show()
 
     # Define PLS object with optimal number of components
-    pls_opt = PLSRegression(n_components=msemin+1)
+    pls_opt = PLSRegression(n_components=msemin + 1)
 
     # Fir to the entire dataset
     pls_opt.fit(X, y)
@@ -72,8 +73,8 @@ def optimise_pls_cv(X, y, n_comp, plot_components=True):
     mse_c = mean_squared_error(y, y_c)
     mse_cv = mean_squared_error(y, y_cv)
 
-    print('R2 calib: %5.3f'  % score_c)
-    print('R2 CV: %5.3f'  % score_cv)
+    print('R2 calib: %5.3f' % score_c)
+    print('R2 CV: %5.3f' % score_cv)
     print('MSE calib: %5.3f' % mse_c)
     print('MSE CV: %5.3f' % mse_cv)
 
@@ -86,11 +87,11 @@ def optimise_pls_cv(X, y, n_comp, plot_components=True):
     with plt.style.context(('ggplot')):
         fig, ax = plt.subplots(figsize=(9, 5))
         ax.scatter(y_c, y, c='red', edgecolors='k')
-        #Plot the best fit line
-        ax.plot(np.polyval(z,y), y, c='blue', linewidth=1)
-        #Plot the ideal 1:1 line
+        # Plot the best fit line
+        ax.plot(np.polyval(z, y), y, c='blue', linewidth=1)
+        # Plot the ideal 1:1 line
         ax.plot(y, y, color='green', linewidth=1)
-        plt.title('$R^{2}$ (CV): '+str(score_cv))
+        plt.title('$R^{2}$ (CV): ' + str(score_cv))
         plt.xlabel('Predicted $^{\circ}$Brix')
         plt.ylabel('Measured $^{\circ}$Brix')
 
@@ -98,23 +99,24 @@ def optimise_pls_cv(X, y, n_comp, plot_components=True):
 
     return
 
+
 data = pd.read_csv('./data/peach_spectra_brix.csv')
 # Get reference values
 y = data['Brix'].values
 # Get spectra
 X = data.drop(['Brix'], axis=1).values
 # Get wavelengths
-wl = np.arange(1100,2300,2)
+wl = np.arange(1100, 2300, 2)
 
 # Calculate second derivative
-X2 = savgol_filter(X, 17, polyorder = 2,deriv=2)
+X2 = savgol_filter(X, 17, polyorder=2, deriv=2)
 
 # Plot second derivative
-plt.figure(figsize=(8,4.5))
+plt.figure(figsize=(8, 4.5))
 with plt.style.context(('ggplot')):
     plt.plot(wl, X2.T)
     plt.xlabel('Wavelength (nm)')
     plt.ylabel('D2 Absorbance')
     plt.show()
 
-optimise_pls_cv(X2,y, 40, plot_components=True)
+optimise_pls_cv(X2, y, 40, plot_components=True)
