@@ -45,11 +45,11 @@ class Example(QMainWindow):
         data = np.loadtxt(filename, skiprows=1)
 
         # Charts (center)
-        charts = self.make_part_charts(data)
+        charts = self.make_charts(data)
         self.setCentralWidget(charts)
 
         # Statistics (right dock)
-        stats = self.make_part_stats(data)
+        stats = self.make_stats(data)
         self.addDockWidget(Qt.RightDockWidgetArea, stats)
 
         # Toolbar
@@ -58,32 +58,29 @@ class Example(QMainWindow):
             NavigationToolbar(charts, self)
         )
 
-    def make_part_charts(self, data):
+    def make_charts(self, data):
         sns.set_theme(style="whitegrid")
 
         fig = plt.figure(figsize=(5, 8))
-        gs = fig.add_gridspec(12, 1)
+        grid = fig.add_gridspec(12, 1)
 
         # ax
-        ax1 = fig.add_subplot(gs[0:5, 0])
+        ax1 = fig.add_subplot(grid[0:5, 0])
         # ax1.set_aspect(1)
-        ax2 = fig.add_subplot(gs[6:7, 0])
-        ax3 = fig.add_subplot(gs[8:11, 0])
+        ax2 = fig.add_subplot(grid[6:7, 0])
+        ax3 = fig.add_subplot(grid[8:11, 0])
 
         # Q-Q plot
         pg.qqplot(data, dist='norm', ax=ax1)
-
         # Boxplot
         sns.boxplot(x=data, ax=ax2)
-
         # Histogram
         sns.histplot(data, kde=True, ax=ax3)
 
         canvas = FigureCanvas(fig)
-
         return canvas
 
-    def make_part_stats(self, data):
+    def make_stats(self, data):
         dock = QDockWidget('Statistics')
 
         area = QScrollArea()
@@ -109,14 +106,23 @@ class Example(QMainWindow):
 
         # ---------------------------------------------------------------------
         # Shapiro-Wilk
-        result_shapiro = shapiro(data)
+        r = self.tbl_shapiro_wilk_test(data, grid, r)
 
-        head_shapiro_1 = self.make_header_cell('W')
+        # ---------------------------------------------------------------------
+        # Anderson-Darling
+        r = self.tbl_anderson_darling_test(data, grid, r)
+
+        return dock
+
+    def tbl_shapiro_wilk_test(self, data, grid, r):
+        result_shapiro = shapiro(data)
+        head_shapiro_1 = self.tbl_header_cell('W')
         grid.addWidget(head_shapiro_1, r, 1)
-        head_shapiro_2 = self.make_header_cell('Prob &lt; W')
+        head_shapiro_2 = self.tbl_header_cell('Prob &lt; W')
         grid.addWidget(head_shapiro_2, r, 2)
         r += 1
-        lab_shapiro = self.make_row_header_cell('Shapiro-Wilk')
+
+        lab_shapiro = self.tbl_row_header_cell('Shapiro-Wilk')
         grid.addWidget(lab_shapiro, r, 0)
         lab_shapiro_w = QLabel('{:.4f}'.format(result_shapiro.statistic))
         lab_shapiro_w.setAlignment(QtCore.Qt.AlignRight)
@@ -130,17 +136,18 @@ class Example(QMainWindow):
         grid.addWidget(lab_shapiro_p, r, 2)
         r += 1
 
-        # ---------------------------------------------------------------------
-        # Anderson-Darling
+        return r
+
+    def tbl_anderson_darling_test(self, data, grid, r):
         result_anderson = anderson(data)
         pvalue = self.calc_anderson_darling_probability(result_anderson.statistic, data.size)
-
-        head_anderson_1 = self.make_header_cell('A<sup>2</sup>')
+        head_anderson_1 = self.tbl_header_cell('A<sup>2</sup>')
         grid.addWidget(head_anderson_1, r, 1)
-        head_anderson_2 = self.make_header_cell('Prob &lt; A<sup>2</sup>')
+        head_anderson_2 = self.tbl_header_cell('Prob &lt; A<sup>2</sup>')
         grid.addWidget(head_anderson_2, r, 2)
         r += 1
-        lab_anderson = self.make_row_header_cell('Anderson-Darling')
+
+        lab_anderson = self.tbl_row_header_cell('Anderson-Darling')
         grid.addWidget(lab_anderson, r, 0)
         lab_anderson_a2 = QLabel('{:.4f}'.format(result_anderson.statistic))
         lab_anderson_a2.setAlignment(QtCore.Qt.AlignRight)
@@ -154,16 +161,16 @@ class Example(QMainWindow):
         grid.addWidget(lab_anderson_p, r, 2)
         r += 1
 
-        return dock
+        return r
 
-    def make_row_header_cell(self, str_label: str) -> QLabel:
+    def tbl_row_header_cell(self, str_label: str) -> QLabel:
         lab = QLabel(str_label)
         lab.setFrameShape(QFrame.Panel)
         lab.setFrameShadow(QFrame.Raised)
 
         return lab
 
-    def make_header_cell(self, str_label: str) -> QLabel:
+    def tbl_header_cell(self, str_label: str) -> QLabel:
         lab = QLabel(str_label)
         lab.setAlignment(QtCore.Qt.AlignRight)
         lab.setFrameShape(QFrame.Panel)
