@@ -3,8 +3,8 @@
 
 import sys
 from PySide2 import QtCore
-from PySide2 import QtGui
 from PySide2.QtCore import Qt
+from PySide2 import QtGui
 from PySide2.QtWidgets import (
     QApplication,
     QDockWidget,
@@ -18,17 +18,17 @@ from PySide2.QtWidgets import (
 )
 import numpy as np
 import math
-import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar,
 )
+import matplotlib.pyplot as plt
 import pingouin as pg
-import seaborn as sns
 from scipy.stats import (
     anderson,
     shapiro,
 )
+import seaborn as sns
 
 
 class Example(QMainWindow):
