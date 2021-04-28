@@ -57,16 +57,24 @@ def main():
     pvalue = calc_probability(result_anderson.statistic, data.size)
     print('A = %.5f, p-value = %.4f' % (result_anderson.statistic, pvalue))
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 4))
+    fig = plt.figure(figsize=(5, 10))
+    gs = fig.add_gridspec(12, 1)
+
+    ax1 = fig.add_subplot(gs[0:5, 0])
+    ax2 = fig.add_subplot(gs[6:7, 0])
+    ax3 = fig.add_subplot(gs[8:11, 0])
 
     # Q-Q plot
-    ax1 = pg.qqplot(data, dist='norm', ax=ax1)
-    ax1.set_title('Probability Plot')
+    a = pg.qqplot(data, dist='norm', ax=ax1)
+    a.set_title('Probability Plot')
+
+    # Boxplot
+    sns.set_theme(style="whitegrid")
+    b = sns.boxplot(x=data, ax=ax2)
 
     # Histogram
-    sns.set_style('darkgrid')
-    ax2 = sns.histplot(data, kde=True, ax=ax2)
-    ax2.set_title('Histogram')
+    c = sns.histplot(data, kde=True, ax=ax3)
+    c.set_title('Histogram')
 
     plt.show()
 
