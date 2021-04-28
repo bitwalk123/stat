@@ -17,7 +17,6 @@ import pingouin as pg
 import seaborn as sns
 
 
-
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -48,7 +47,7 @@ class Example(QMainWindow):
         # Histogram
         c = sns.histplot(data, kde=True, ax=ax3)
 
-        #plt.show()
+        # plt.show()
         canvas = FigureCanvas(fig)
 
         self.setCentralWidget(canvas)

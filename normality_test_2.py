@@ -8,11 +8,12 @@ from scipy.stats import (
     shapiro,
 )
 
-
 '''
 Reference
 https://stats.stackexchange.com/questions/350443/how-do-i-get-the-p-value-of-ad-test-using-the-results-of-scipy-stats-anderson
 '''
+
+
 def calc_probability(ad, n):
     ad_adj = ad * (1 + (0.75 / n) + 2.25 / (n ** 2))
     if ad_adj >= 0.6:
