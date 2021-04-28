@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import sys
 from PySide2 import QtCore
 from PySide2.QtCore import Qt
 from PySide2 import QtGui
@@ -29,6 +28,7 @@ from scipy.stats import (
     shapiro,
 )
 import seaborn as sns
+import sys
 
 
 class Example(QMainWindow):
