@@ -57,6 +57,7 @@ def main():
     pvalue = calc_probability(result_anderson.statistic, data.size)
     print('A = %.5f, p-value = %.4f' % (result_anderson.statistic, pvalue))
 
+    sns.set_theme(style="whitegrid")
     fig = plt.figure(figsize=(5, 10))
     gs = fig.add_gridspec(12, 1)
 
@@ -69,7 +70,6 @@ def main():
     a.set_title('Probability Plot')
 
     # Boxplot
-    sns.set_theme(style="whitegrid")
     b = sns.boxplot(x=data, ax=ax2)
 
     # Histogram
