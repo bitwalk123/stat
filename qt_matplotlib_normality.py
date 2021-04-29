@@ -43,8 +43,7 @@ class Example(QMainWindow):
         self.setFont(self.get_app_font())
 
         # sample dataset
-        filename = 'data_norm.csv'
-        data = np.loadtxt(filename, skiprows=1)
+        data = np.random.normal(loc=20, scale=5, size=100)
 
         # Charts (center)
         charts = self.make_charts(data)
