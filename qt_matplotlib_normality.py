@@ -3,7 +3,7 @@
 
 from PySide2 import QtCore
 from PySide2.QtCore import Qt
-from PySide2 import QtGui
+from PySide2.QtGui import QFont
 from PySide2.QtWidgets import (
     QApplication,
     QDockWidget,
@@ -16,12 +16,12 @@ from PySide2.QtWidgets import (
     QWidget,
 )
 import numpy as np
-import math
 from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar,
 )
 import matplotlib.pyplot as plt
+import math
 import pingouin as pg
 from scipy.stats import (
     anderson,
@@ -40,6 +40,8 @@ class Example(QMainWindow):
         self.show()
 
     def initUI(self):
+        self.setFont(self.get_app_font())
+
         # sample dataset
         filename = 'data_norm.csv'
         data = np.loadtxt(filename, skiprows=1)
@@ -88,7 +90,6 @@ class Example(QMainWindow):
         dock.setWidget(area)
 
         base = QWidget()
-        base.setFont(QtGui.QFont("Helvetica [Cronyx]", 12))
         base.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         area.setWidget(base)
 
@@ -98,9 +99,7 @@ class Example(QMainWindow):
         base.setLayout(grid)
 
         r = 0
-        lab_gft = QLabel('Goodness of Fit Test')
-        lab_gft.setFrameShape(QFrame.Panel)
-        lab_gft.setFrameShadow(QFrame.Raised)
+        lab_gft = self.tbl_section_title('Goodness of Fit Test')
         grid.addWidget(lab_gft, r, 0, 1, 3)
         r += 1
 
@@ -116,23 +115,18 @@ class Example(QMainWindow):
 
     def tbl_shapiro_wilk_test(self, data, grid, r):
         result_shapiro = shapiro(data)
-        head_shapiro_1 = self.tbl_header_cell('W')
+
+        head_shapiro_1 = self.tbl_col_header_cell('W')
         grid.addWidget(head_shapiro_1, r, 1)
-        head_shapiro_2 = self.tbl_header_cell('Prob &lt; W')
+        head_shapiro_2 = self.tbl_col_header_cell('Prob &lt; W')
         grid.addWidget(head_shapiro_2, r, 2)
         r += 1
 
         lab_shapiro = self.tbl_row_header_cell('Shapiro-Wilk')
         grid.addWidget(lab_shapiro, r, 0)
-        lab_shapiro_w = QLabel('{:.4f}'.format(result_shapiro.statistic))
-        lab_shapiro_w.setAlignment(QtCore.Qt.AlignRight)
-        lab_shapiro_w.setFrameShape(QFrame.Panel)
-        lab_shapiro_w.setFrameShadow(QFrame.Sunken)
+        lab_shapiro_w = self.tbl_cell_value('{:.4f}'.format(result_shapiro.statistic))
         grid.addWidget(lab_shapiro_w, r, 1)
-        lab_shapiro_p = QLabel('{:.4f}'.format(result_shapiro.pvalue))
-        lab_shapiro_p.setAlignment(QtCore.Qt.AlignRight)
-        lab_shapiro_p.setFrameShape(QFrame.Panel)
-        lab_shapiro_p.setFrameShadow(QFrame.Sunken)
+        lab_shapiro_p = self.tbl_cell_value('{:.4f}'.format(result_shapiro.pvalue))
         grid.addWidget(lab_shapiro_p, r, 2)
         r += 1
 
@@ -141,46 +135,61 @@ class Example(QMainWindow):
     def tbl_anderson_darling_test(self, data, grid, r):
         result_anderson = anderson(data)
         pvalue = self.calc_anderson_darling_probability(result_anderson.statistic, data.size)
-        head_anderson_1 = self.tbl_header_cell('A<sup>2</sup>')
+
+        head_anderson_1 = self.tbl_col_header_cell('A<sup>2</sup>')
         grid.addWidget(head_anderson_1, r, 1)
-        head_anderson_2 = self.tbl_header_cell('Prob &lt; A<sup>2</sup>')
+        head_anderson_2 = self.tbl_col_header_cell('Prob &lt; A<sup>2</sup>')
         grid.addWidget(head_anderson_2, r, 2)
         r += 1
 
         lab_anderson = self.tbl_row_header_cell('Anderson-Darling')
         grid.addWidget(lab_anderson, r, 0)
-        lab_anderson_a2 = QLabel('{:.4f}'.format(result_anderson.statistic))
-        lab_anderson_a2.setAlignment(QtCore.Qt.AlignRight)
-        lab_anderson_a2.setFrameShape(QFrame.Panel)
-        lab_anderson_a2.setFrameShadow(QFrame.Sunken)
+        lab_anderson_a2 = self.tbl_cell_value('{:.4f}'.format(result_anderson.statistic))
         grid.addWidget(lab_anderson_a2, r, 1)
-        lab_anderson_p = QLabel('{:.4f}'.format(pvalue))
-        lab_anderson_p.setAlignment(QtCore.Qt.AlignRight)
-        lab_anderson_p.setFrameShape(QFrame.Panel)
-        lab_anderson_p.setFrameShadow(QFrame.Sunken)
+        lab_anderson_p = self.tbl_cell_value('{:.4f}'.format(pvalue))
         grid.addWidget(lab_anderson_p, r, 2)
         r += 1
 
         return r
 
-    def tbl_row_header_cell(self, str_label: str) -> QLabel:
-        lab = QLabel(str_label)
+    def tbl_section_title(self, title) -> QLabel:
+        lab = QLabel(title)
+        lab.setStyleSheet('QLabel {background-color: #028; color: #fff;}');
         lab.setFrameShape(QFrame.Panel)
         lab.setFrameShadow(QFrame.Raised)
-
         return lab
 
-    def tbl_header_cell(self, str_label: str) -> QLabel:
-        lab = QLabel(str_label)
+    def tbl_col_header_cell(self, title: str) -> QLabel:
+        lab = QLabel(title)
+        lab.setStyleSheet('QLabel {background-color: #ddf;}');
         lab.setAlignment(QtCore.Qt.AlignRight)
         lab.setFrameShape(QFrame.Panel)
         lab.setFrameShadow(QFrame.Raised)
-
         return lab
+
+    def tbl_row_header_cell(self, title: str) -> QLabel:
+        lab = QLabel(title)
+        lab.setStyleSheet('QLabel {background-color: #ddf;}');
+        lab.setFrameShape(QFrame.Panel)
+        lab.setFrameShadow(QFrame.Raised)
+        return lab
+
+    def tbl_cell_value(self, value):
+        lab = QLabel(value)
+        lab.setStyleSheet('QLabel {background-color: #fff;}');
+        lab.setAlignment(QtCore.Qt.AlignRight)
+        lab.setFrameShape(QFrame.Panel)
+        lab.setFrameShadow(QFrame.Sunken)
+        return lab
+
+    def get_app_font(self):
+        font = QFont()
+        font.setPointSize(12)
+        font.setFixedPitch(True)
+        return font
 
     def calc_anderson_darling_probability(self, ad, n):
         ad_adj = ad * (1 + (0.75 / n) + 2.25 / (n ** 2))
-
         if ad_adj >= 0.6:
             prob = math.exp(1.2937 - 5.709 * ad_adj - 0.0186 * (ad_adj ** 2))
         elif ad_adj >= 0.34:
@@ -189,7 +198,6 @@ class Example(QMainWindow):
             prob = 1 - math.exp(-8.318 + 42.796 * ad_adj - 59.938 * (ad_adj ** 2))
         else:
             prob = 1 - math.exp(-13.436 + 101.14 * ad_adj - 223.73 * (ad_adj ** 2))
-
         return prob
 
 
