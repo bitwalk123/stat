@@ -60,6 +60,7 @@ class Example(QMainWindow):
 
         self.initUI(df)
         self.setWindowTitle('TableView')
+        self.resize(400, 300)
         self.show()
 
     def initUI(self, df):
