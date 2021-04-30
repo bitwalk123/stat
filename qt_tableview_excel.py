@@ -3,6 +3,7 @@
 # Reference:
 # https://pc-technique.info/2020/02/207/
 
+import pandas as pd
 import sys
 from typing import Any
 from PySide2.QtCore import (
@@ -59,6 +60,14 @@ class Example(QMainWindow):
 
     def __init__(self):
         super().__init__()
+
+        filename = '国土状況.xlsx'
+        df = pd.read_excel(
+            filename,
+            engine='openpyxl',
+        )
+        print(df)
+
         self.initUI()
         self.setWindowTitle('TableView')
         self.show()
