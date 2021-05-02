@@ -2,7 +2,6 @@
 # coding: utf-8
 # Reference
 # https://note.nkmk.me/python-pandas-matplotlib-candlestick-chart/
-# https://stackoverflow.com/questions/60599812/how-can-i-customize-mplfinance-plot
 import mplfinance as mpf
 import pandas as pd
 
