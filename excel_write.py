@@ -2,8 +2,9 @@ import pandas as pd
 
 # Reference
 # https://note.nkmk.me/python-pandas-to-excel/
+# pip install openpyxl
+# pip install xlwt
 print(pd.__version__)
-# 1.2.2
 
 df = pd.DataFrame([[11, 21, 31], [12, 22, 32], [31, 32, 33]],
                   index=['one', 'two', 'three'],
@@ -15,4 +16,4 @@ print(df)
 # two    12  22  32
 # three  31  32  33
 
-df.to_excel('pandas_to_excel_no_index_header.xlsx', index=False, header=True)
+df.to_excel('pandas_to_excel_no_index.xlsx', index=False, header=True)
