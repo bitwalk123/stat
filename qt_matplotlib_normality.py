@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from PySide2 import QtCore
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QFont
-from PySide2.QtWidgets import (
+from PySide6 import QtCore
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import (
     QApplication,
     QDockWidget,
     QFrame,
@@ -16,7 +16,7 @@ from PySide2.QtWidgets import (
     QWidget,
 )
 import numpy as np
-from matplotlib.backends.backend_qt5agg import (
+from matplotlib.backends.backend_qtagg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar,
 )

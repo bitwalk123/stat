@@ -2,15 +2,16 @@
 # coding: utf-8
 # Reference
 # https://stackoverflow.com/questions/60599812/how-can-i-customize-mplfinance-plot
-from matplotlib.backends.backend_qt5agg import (
+from matplotlib.backends.backend_qtagg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar,
+
 )
 import mplfinance as mpf
 import pandas as pd
 import sys
-from PySide2 import QtCore
-from PySide2.QtWidgets import (
+from PySide6 import QtCore
+from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
 )
