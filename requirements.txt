@@ -1,0 +1,16 @@
+backports.tarfile
+fqdn
+importlib-metadata
+isoduration
+jaraco.collections
+jsonpointer
+jupyterlab
+llvmlite
+mplfinance
+pingouin
+pip-chill
+pip-review
+tinycss2
+tomli
+uri-template
+webcolors
