@@ -2,11 +2,13 @@ backports.tarfile
 fqdn
 importlib-metadata
 isoduration
+japanize-matplotlib
 jaraco.collections
 jsonpointer
 jupyterlab
 llvmlite
 mplfinance
+openpyxl
 pingouin
 pip-chill
 pip-review
@@ -14,3 +16,4 @@ tinycss2
 tomli
 uri-template
 webcolors
+xlrd
